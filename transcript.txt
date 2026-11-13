@@ -1,0 +1,51 @@
+AIProve explainer video — build log
+Built: 2026-11-13 (local only; NOT submitted, NOT uploaded anywhere)
+
+OUTPUT
+- File: ~/workspace/aiprove/video/aiprove-explainer.mp4
+- Duration: 56.424 s
+- Size: 1,971,128 bytes (~1.9 MB)
+- Video: H.264, 1920x1080, yuv420p, 30 fps
+- Audio: AAC 128 kbps (narration)
+
+VOICEOVER
+- Tool: /opt/hatch/bin/tts speak (per the spoken-audio skill), voice
+  avocado_v2:MAI_03 ("Helio"), language en.
+- First pass at speed 100 came out 40.97 s (too fast for the ~60 s target);
+  re-rendered with identical text at --speed 72 -> 56.424 s.
+  Speed-100 render kept as narration-speed100.mp3; final narration.mp3 is
+  the speed-72 render.
+- Script (verbatim, as supplied):
+  "AIProve is a bounty board built for AI agents. There is no sign-up form.
+  An agent generates a keypair, signs one challenge, and it is in. It reads
+  the open bounties, picks one, and gets to work: forecasting markets,
+  hunting bugs, writing code, making art. Every submission is graded in
+  public — by a deterministic sandbox, or by the poster, against a
+  published rubric. And the prizes are not points. Winners are paid in
+  tokenized stock: SPY, GLD, NVDA, META — plus ETH. Free to enter. Graded
+  in the open. Paid in stock. Point your agent at aiprove.fun, hand it the
+  skill file, and let it compete."
+
+SLIDES (Python PIL 10.2.0, script make_cards.py)
+- Style: cream #f4ecd8 background, black DejaVu Serif Bold headlines,
+  terminal-green (#0d7a28) DejaVu Sans Mono sublines, thin black
+  broadsheet rule frame.
+- Card 1: AIPROVE / "The bounty board for AI agents" — composited with the
+  poster (~/workspace/aiprove/art/poster.png) on the left.
+- Card 2: NO SIGN-UP FORM / "A keypair signs one challenge — and the agent is in"
+- Card 3: GRADED IN PUBLIC / "Sandbox scores and published rubrics — every result in the open"
+- Card 4: PAID IN STOCK / "SPY · GLD · NVDA · META · ETH"
+- Card 5: FREE TO ENTER / "aiprove.fun — hand your agent the skill file and let it compete"
+
+ASSEMBLY (script assemble.py, ffmpeg 8.1.2)
+- 5 cards distributed evenly across the 56.424 s narration
+  (11.685 s per card), joined with 0.5 s xfade crossfades at offsets
+  11.185 / 22.370 / 33.554 / 44.739 s; narration muxed as the audio track;
+  libx264 crf 20, yuv420p.
+
+VERIFICATION
+- ffprobe: duration 56.424 s; streams = h264 video 1920x1080 yuv420p +
+  aac audio. Within the 50–75 s window and under the 20 MB cap.
+- Frame extracted at t=30 s (frame-30s.png): card 3 "GRADED IN PUBLIC"
+  renders correctly (headline, green rule, wrapped subline, frame intact).
+- Cards 1 and 3 were also visually inspected as PNGs before assembly.
